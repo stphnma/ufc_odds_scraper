@@ -17,25 +17,19 @@ rows = odds_table.findAll('tr')
 
 header_row = rows[0]
 bookees = dict(enumerate([x.text for x in header_row.findAll('th') if x.text != ""]))
-print bookees
 
 even_rows = odds_table.findAll('tr', {'class':'even'})
 odd_rows = odds_table.findAll('tr', {'class':'odd'})
 
 even_rows.extend(odd_rows)
 
-
 data = []
 for i in range(0, len(even_rows)):
-    print i
 
     odds = [x.text for x in even_rows[i].findAll('td')]
     odds = [str(filter(lambda x: x in printable, x)) for x in odds]
 
     fighter = [x.text for x in even_rows[i].findAll('span', {'class':'tw'})][0]
-
-    # print odds
-    print fighter
 
     d = {'fighter': fighter}
 
@@ -44,9 +38,9 @@ for i in range(0, len(even_rows)):
 
     d['timestamp'] = datetime.now()
     data.append(d)
-    print "\n"
 
 data = pd.DataFrame(data)
+data.to_csv("data/%s.csv"%str(datetime.now()),index = False, encoding = 'utf-8')
 
 
 
